@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { APP_NAME } from "@/lib/constants";
 import Menu from "./menu";
+import logo from "@/assets/logo.svg";
 
 export default function Header() {
   return (
@@ -15,7 +16,7 @@ export default function Header() {
             <Link href="/" className="flex-start">
               <Image
                 priority={true}
-                src="images/logo.svg"
+                src={logo}
                 width={48}
                 height={48}
                 alt={`${APP_NAME} logo`}
