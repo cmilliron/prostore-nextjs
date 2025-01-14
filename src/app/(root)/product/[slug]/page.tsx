@@ -21,8 +21,7 @@ export default async function ProductDetailsPage(props: {
       <div className="grid gird-cols-1 md:grid-cols-5">
         {/* Image Container */}
         <div className="col-span-2">
-          {" "}
-          <ProductImages images={product.images} />
+          <ProductImages images={product.images!} />
         </div>
         {/* Details Column */}
         <div className="col-span-2 p-5">
