@@ -76,3 +76,12 @@ model Session {
 
   @@map("sessions")
 }
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+  @@map("verification_tokens")
+}
