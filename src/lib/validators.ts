@@ -22,3 +22,12 @@ export const insertProductsSchema = z.object({
   banner: z.string().nullable(),
   price: currency,
 });
+
+// Schema for siging in a user
+export const signInFormSchema = z.object({
+  email: z
+    .string()
+    .email("invalid email address")
+    .min(3, "Email must be at least 3 characters"),
+  password: z.string().min(3, "Password must be at least 3 characters"),
+});
