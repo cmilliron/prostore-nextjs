@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import logo from "@/assets/logo.svg";
 import { APP_NAME } from "@/lib/constants";
+import CredentialsSignInForm from "./credentials-signin-form";
 
 export const metadata: Metadata = {
   title: "Sign In",
@@ -25,7 +26,7 @@ export default function SignIn() {
         <CardHeader className="space-y-6">
           <Link href="/" className="flex-center">
             <Image
-              priority
+              priority={true}
               src={logo}
               width={100}
               height={100}
@@ -37,7 +38,9 @@ export default function SignIn() {
             Select a method to sign in to your account
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">{/* Form Goes Here */}</CardContent>
+        <CardContent className="space-y-4">
+          <CredentialsSignInForm />
+        </CardContent>
       </Card>
     </div>
   );
