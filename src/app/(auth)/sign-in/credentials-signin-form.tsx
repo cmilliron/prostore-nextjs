@@ -5,9 +5,27 @@ import { Label } from "@/components/ui/label";
 import { signInDefaultValues } from "@/lib/constants";
 import Link from "next/link";
 
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
+import { signInWithCredentials } from "@/lib/actions/users.actions";
+
 export default function CredentialsSignInForm() {
+  const [data, formAction] = useActionState(signInWithCredentials, {
+    message: "",
+    success: false,
+  });
+
+  const SignInButton = () => {
+    const { pending } = useFormStatus();
+    return (
+      <Button disabled={pending} className="w-full" variant="default">
+        {pending ? "Signing In..." : "Sign In with credentials"}
+      </Button>
+    );
+  };
+
   return (
-    <form action="">
+    <form action={formAction}>
       <div className="space-y-6">
         <div>
           <Label htmlFor="email">Email</Label>
@@ -32,11 +50,11 @@ export default function CredentialsSignInForm() {
           />
         </div>
         <div>
-          <Button className="w-full" variant="default">
-            Sign In with credentials
-          </Button>
+          <SignInButton />
         </div>
-
+        {data && !data.success && (
+          <div className="text-center text-destructive">{data.message}</div>
+        )}
         <div className="text-sm text-center text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link target="_self" className="link" href="/sign-up">
