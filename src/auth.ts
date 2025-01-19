@@ -6,11 +6,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/db/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
-import { User, Session, VerificationToken } from "@prisma/client";
+// import { User, Session, VerificationToken } from "@prisma/client";
 
 export const config = {
   pages: {
-    signIn: "sign-in",
+    signIn: "/sign-in",
     error: "/sign-in",
   },
   session: {
@@ -59,21 +59,17 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({
-      session,
-      user,
-      trigger,
-      token,
-    }: {
-      session: Session & { user: User };
-      user: User;
-      trigger: string;
-      token: VerificationToken & { sub: string };
-    }) {
+    async session({ session, user, trigger, token }: any) {
+      // Set the user ID from the token
       session.user.id = token.sub;
+      session.user.role = token.role;
+      session.user.name = token.name;
+
+      // If there is an update, set the user name
       if (trigger === "update") {
         session.user.name = user.name;
       }
+
       return session;
     },
   },
