@@ -36,8 +36,8 @@ export default function SignUpForm() {
           <Input
             id="name"
             name="name"
-            required
             type="text"
+            required
             defaultValue={signUpDefaultValues.name}
             autoComplete="name"
           />
