@@ -5,7 +5,7 @@ import { CartItem } from "@/types";
 import { Button } from "@/components/ui/button";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
-import { roundTwoDecimalPlaces } from "@/lib/utils";
+// import { roundTwoDecimalPlaces } from "@/lib/utils";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { addItemToCart } from "@/lib/actions/cart.actions";
@@ -32,7 +32,7 @@ export default function AddToCart({
     }
 
     toast({
-      description: `${item.name} added to the cart`,
+      description: res.message,
       action: (
         <ToastAction
           className="bg-primary text-white hover:bg-gray-800"
