@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { prisma } from "@/db/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 // import { User, Session, VerificationToken } from "@prisma/client";
@@ -94,7 +94,7 @@ export const config = {
       return token;
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    authorized({ request, auth }: any) {
+    authorized({ request }: any) {
       // Chekc for cart cookie
       if (!request.cookies.get("sessionCartId")) {
         // Generate cart cookie
