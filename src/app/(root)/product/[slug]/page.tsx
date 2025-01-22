@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { getProductBySlug } from "@/lib/actions/products-actions";
 import ProductImages from "@/components/shared/product/product-image";
 import AddToCart from "@/components/shared/product/add-to-cart";
+import { getMyCart } from "@/lib/actions/cart.actions";
 
 export default async function ProductDetailsPage(props: {
   params: Promise<{ slug: string }>;
@@ -18,6 +19,7 @@ export default async function ProductDetailsPage(props: {
 
   if (!product) notFound();
 
+  const cart = await getMyCart();
   return (
     <section>
       <div className="grid gird-cols-1 md:grid-cols-5">
@@ -67,6 +69,7 @@ export default async function ProductDetailsPage(props: {
               {product.stock > 0 && (
                 <div className="flex-center">
                   <AddToCart
+                    cart={cart}
                     item={{
                       productId: product.id,
                       name: product.name,
