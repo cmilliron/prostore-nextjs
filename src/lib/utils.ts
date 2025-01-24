@@ -49,3 +49,20 @@ export function roundTwoDecimalPlaces(value: number | string) {
     throw new Error("Value is not a number or string");
   }
 }
+
+const CURRENCEY_FORMATTER = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+  style: "currency",
+  minimumFractionDigits: 2,
+});
+
+// Format currence
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === "number") {
+    return CURRENCEY_FORMATTER.format(amount);
+  } else if (typeof amount === "string") {
+    return CURRENCEY_FORMATTER.format(Number(amount));
+  } else {
+    return "NaN";
+  }
+}
