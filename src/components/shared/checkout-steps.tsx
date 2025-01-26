@@ -9,7 +9,7 @@ const checkoutSteps = [
   "Place Order",
 ];
 
-export default function CheckoutSteps({ current = 0 }) {
+export default function CheckoutSteps({ current = 0 }): React.ReactElement {
   return (
     <div className="flex-between flex-col md:flex-row space-x-2 space-y-2 mb-10">
       {checkoutSteps.map((step, index) => (

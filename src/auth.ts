@@ -136,7 +136,7 @@ export const config = {
       ];
 
       // Get pathname from the req URL object
-      const { pathname } = request.nextURl;
+      const { pathname } = request.nextUrl;
 
       if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
 

@@ -10,7 +10,7 @@ import { ControllerRenderProps } from "react-hook-form";
 import { shippingAddressDefaultValues } from "@/lib/constants";
 import { useToast } from "@/hooks/use-toast";
 import { useTransition } from "react";
-import CheckOutSteps from "@/components/shared/checkout-steps";
+import CheckoutSteps from "@/components/shared/checkout-steps";
 import {
   Form,
   FormControl,
@@ -57,7 +57,7 @@ export default function ShippingAddressForm({
 
   return (
     <>
-      <CheckOutSteps current={1} />
+      <CheckoutSteps current={1} />
       <div className="max-w-md mx-auto space-y-4">
         <h1 className="h2-bold mt-4">Shipping Address</h1>
         <p className="text-sm text-muted-foreground">
