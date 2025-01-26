@@ -5,7 +5,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 import { prisma } from "@/db/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-// import { cookies } from "next/headers";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 // import { User, Session, VerificationToken } from "@prisma/client";
@@ -80,12 +80,41 @@ export const config = {
       // Assign user fields to token
       if (user) {
         token.role = user.role;
+        token.id = user.id;
 
-        // if user has no name, use email as their default name
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { name: token.name },
-        });
+        // If user has no name then use th email
+        if (user.name === "NO_NAME") {
+          token.name = user.email!.splite("@")[0];
+
+          // if user has no name, use email as their default name
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { name: token.name },
+          });
+        }
+
+        if (trigger === "signIn" || trigger === "signUp") {
+          const cookieObject = await cookies();
+          const sessionCartId = cookieObject.get("sessionCartId")?.value;
+
+          if (sessionCartId) {
+            const sessionCart = await prisma.cart.findFirst({
+              where: { sessionCartId },
+            });
+            if (sessionCart) {
+              // Delete curren user cart
+              await prisma.cart.deleteMany({
+                where: { userId: user.id },
+              });
+
+              // Assign new Cart to database
+              await prisma.cart.update({
+                where: { id: sessionCart.id },
+                data: { userId: user.id },
+              });
+            }
+          }
+        }
       }
       // hand session updates (e.g., name change)
       if (session?.user.name && trigger === "update") {
@@ -94,8 +123,24 @@ export const config = {
       return token;
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    authorized({ request }: any) {
-      // Chekc for cart cookie
+    authorized({ request, auth }: any) {
+      // Array of regez patterns of proteted paths
+      const protectedPaths = [
+        /\/shipping-address/,
+        /\/payment-method/,
+        /\/place-order/,
+        /\/profile/,
+        /\/user\.(.*)/,
+        /\/order\/(.*)/,
+        /\/admin/,
+      ];
+
+      // Get pathname from the req URL object
+      const { pathname } = request.nextURl;
+
+      if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
+
+      // Check for cart cookie
       if (!request.cookies.get("sessionCartId")) {
         // Generate cart cookie
         const sessionCartId = crypto.randomUUID();
