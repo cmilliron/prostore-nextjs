@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getUserById } from "@/lib/actions/user.actions";
+import { getUserById } from "@/lib/actions/users.actions";
 import { getCurrentSession } from "@/lib/actions/auth-actions";
 
 export const metadata: Metadata = {
