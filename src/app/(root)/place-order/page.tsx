@@ -20,6 +20,7 @@ import { formatCurrency } from "@/lib/utils";
 import { ShippingAddress, Cart } from "@/types";
 
 import { Metadata } from "next";
+import PlaceOrderForm from "./place-order-form";
 
 export const metadata: Metadata = {
   title: "Place Order",
@@ -48,41 +49,53 @@ export default async function placeOrderPage() {
       <h1 className="py-4 text-2xl">Place Order</h1>
       <div className="grid md:grid-cols-3 md:gap-5">
         <div className="overflow-x-auto md:col-span-2 space-y-4">
-          {/* Shipping Card */}
-          <Card>
-            <CardContent className="p-4 gap-4">
-              <h2 className="text-xl pb-4">Shipping Address</h2>
-              <p>{userAddress.fullName}</p>
-              <p>
-                {userAddress.streetAddress}, {userAddress.city},{" "}
-                {userAddress.postalCode}, {userAddress.country}
-              </p>
-              <div className="mt-3">
-                <Link href="/shipping-address">
-                  <Button variant="outline">Edit</Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* payment Method Cart */}
-          <Card>
-            <CardContent className="p-4  gap-4">
-              <h2 className="text-xl pb-4">Payment Method</h2>
-              <p>{user.paymentMethod}</p>
-              <div className="mt-3">
-                <Link href="/payment-method">
-                  <Button variant="outline">Edit</Button>
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-
+          <ShippingAddressCard userAddress={userAddress} />
+          <PaymentMethodCard paymentMethod={user.paymentMethod} />
           <CartCard cart={cart} />
         </div>
         <CartTotals cart={cart} />
       </div>
     </>
+  );
+}
+
+function ShippingAddressCard({
+  userAddress,
+}: {
+  userAddress: ShippingAddress;
+}) {
+  return (
+    <Card>
+      <CardContent className="p-4 gap-4">
+        <h2 className="text-xl pb-4">Shipping Address</h2>
+        <p>{userAddress.fullName}</p>
+        <p>
+          {userAddress.streetAddress}, {userAddress.city},{" "}
+          {userAddress.postalCode}, {userAddress.country}
+        </p>
+        <div className="mt-3">
+          <Link href="/shipping-address">
+            <Button variant="outline">Edit</Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function PaymentMethodCard({ paymentMethod }: { paymentMethod: string }) {
+  return (
+    <Card>
+      <CardContent className="p-4  gap-4">
+        <h2 className="text-xl pb-4">Payment Method</h2>
+        <p>{paymentMethod}</p>
+        <div className="mt-3">
+          <Link href="/payment-method">
+            <Button variant="outline">Edit</Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -120,7 +133,7 @@ function CartCard({ cart }: { cart: Cart }) {
                   <TableCell>
                     <span className="px-2">{item.qty}</span>
                   </TableCell>
-                  <TableCell>${formatCurrency(item.price)}</TableCell>
+                  <TableCell>{formatCurrency(item.price)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -153,6 +166,7 @@ function CartTotals({ cart }: { cart: Cart }) {
             <div>Total</div>
             <div>{formatCurrency(totalPrice)}</div>
           </div>
+          <PlaceOrderForm />
         </CardContent>
       </Card>
     </div>
