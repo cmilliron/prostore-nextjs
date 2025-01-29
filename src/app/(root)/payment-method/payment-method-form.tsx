@@ -97,6 +97,7 @@ export default function PaymentMethodForm({
                         ))}
                       </RadioGroup>
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
