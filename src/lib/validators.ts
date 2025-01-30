@@ -101,7 +101,7 @@ export const insertOrderSchema = z.object({
   paymentMethod: z.string().refine((data) => PAYMENT_METHODS.includes(data), {
     message: "Invalid payment methods",
   }),
-  shippingAddressSchema: shippingAddressSchema,
+  shippingAddress: shippingAddressSchema,
 });
 
 export const insertOrderItemSchema = z.object({
