@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Order, ShippingAddress } from "@/types";
+import { Order, ShippingAddress, OrderItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -48,6 +48,7 @@ export default function OrderDetailsTable({ order }: { order: Order }) {
             isDelivered={isDelivered}
             deliveredAt={deliveredAt}
           />
+          <OrderItemTable orderItems={orderItems} />
         </div>
       </div>
     </>
@@ -105,6 +106,53 @@ function ShippingAddressCard({
         ) : (
           <Badge variant="destructive">Not delivered</Badge>
         )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function OrderItemTable({ orderItems }: { orderItems: OrderItem[] }) {
+  return (
+    <Card>
+      <CardContent className="p-2 gap-4">
+        <h2 className="text-xl pb-4">Order Items</h2>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Item</TableHead>
+              <TableHead>Quanity</TableHead>
+              <TableHead>Price</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {orderItems.map((item) => (
+              <TableRow key={item.slug}>
+                <TableCell>
+                  <Link
+                    href={`/product/${item.slug}`}
+                    className="flex items-center"
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      width={50}
+                      height={50}
+                    />
+                    <span className="px-2">{item.name}</span>
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <span className="px-2">{item.qty}</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-right">
+                    {formatCurrency(item.price)}
+                  </span>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   );
