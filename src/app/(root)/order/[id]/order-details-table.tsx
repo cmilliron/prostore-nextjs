@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Order, ShippingAddress, OrderItem } from "@/types";
+import { Order, ShippingAddress, OrderItem, currency } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -49,6 +49,14 @@ export default function OrderDetailsTable({ order }: { order: Order }) {
             deliveredAt={deliveredAt}
           />
           <OrderItemTable orderItems={orderItems} />
+        </div>
+        <div>
+          <OrderSummary
+            itemsPrice={itemsPrice}
+            taxPrice={taxPrice}
+            shippingPrice={shippingPrice}
+            totalPrice={totalPrice}
+          />
         </div>
       </div>
     </>
@@ -155,5 +163,39 @@ function OrderItemTable({ orderItems }: { orderItems: OrderItem[] }) {
         </Table>
       </CardContent>
     </Card>
+  );
+}
+
+function OrderSummary({
+  itemsPrice,
+  taxPrice,
+  shippingPrice,
+  totalPrice,
+}: {
+  itemsPrice: string;
+  taxPrice: string;
+  shippingPrice: string;
+  totalPrice: string;
+}) {
+  return (
+    <Card>
+      <CardContent className="p-4 space-y-4 gap-4">
+        <h2 className="text-xl pb-4">Order Summary</h2>
+
+        <SummaryItem label="Items" amount={itemsPrice} />
+        <SummaryItem label="Tax" amount={taxPrice} />
+        <SummaryItem label="Shipping" amount={shippingPrice} />
+        <SummaryItem label="Total" amount={totalPrice} />
+      </CardContent>
+    </Card>
+  );
+}
+
+function SummaryItem({ label, amount }: { label: string; amount: string }) {
+  return (
+    <div className="flex justify-between">
+      <div>{label}</div>
+      <div>{formatCurrency(amount)}</div>
+    </div>
   );
 }
