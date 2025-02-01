@@ -4,20 +4,21 @@ const baseUrl =
 export const paypal = {};
 
 // Generate a access token for the PayPal API
-async function generateAccessToken() {
+export async function generateAccessToken() {
   const { PAYPAL_CLIENT_ID, PAYPAL_APP_SECRET } = process.env;
-  const auth = Buffer.from(
-    `${PAYPAL_CLIENT_ID}:${PAYPAL_APP_SECRET}`
-  ).toString();
+  const auth = Buffer.from(`${PAYPAL_CLIENT_ID}:${PAYPAL_APP_SECRET}`).toString(
+    "base64"
+  );
 
-  const response = await fetch(`${baseUrl}/v1/oauth22/token`, {
+  const response = await fetch(`${baseUrl}/v1/oauth2/token`, {
     method: "POST",
     body: "grant_type=client_credentials",
     headers: {
-      Authoization: `Basic ${auth}`,
+      Authorization: `Basic ${auth}`,
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
+  console.log(response);
 
   const jsonData = await handleResponse(response);
   return jsonData.access_token;
@@ -26,7 +27,7 @@ async function generateAccessToken() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function handleResponse(response: any) {
   if (response.status === 200 || response.status === 201) {
-    return response.json;
+    return response.json();
   }
   const errorMessage = await response.text();
   throw new Error(errorMessage);
