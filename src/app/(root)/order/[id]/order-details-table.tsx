@@ -10,14 +10,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/hooks/use-toast";
+// import { useToast } from "@/hooks/use-toast";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
-import { Order, ShippingAddress, OrderItem, currency } from "@/types";
+import { Order, ShippingAddress, OrderItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function OrderDetailsTable({ order }: { order: Order }) {
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
   const {
     shippingAddress,
@@ -51,12 +51,14 @@ export default function OrderDetailsTable({ order }: { order: Order }) {
           <OrderItemTable orderItems={orderItems} />
         </div>
         <div>
-          <OrderSummary
-            itemsPrice={itemsPrice}
-            taxPrice={taxPrice}
-            shippingPrice={shippingPrice}
-            totalPrice={totalPrice}
-          />
+          <aside>
+            <OrderSummary
+              itemsPrice={itemsPrice}
+              taxPrice={taxPrice}
+              shippingPrice={shippingPrice}
+              totalPrice={totalPrice}
+            />
+          </aside>
         </div>
       </div>
     </>
