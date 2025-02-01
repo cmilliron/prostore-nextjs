@@ -10,7 +10,7 @@ export const paypal = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authoriazation: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         intent: "CAPTURE",
@@ -35,7 +35,7 @@ export const paypal = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authoriazation: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -58,7 +58,7 @@ export async function generateAccessToken() {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  console.log(response);
+  //   console.log(response);
 
   const jsonData = await handleResponse(response);
   return jsonData.access_token;
