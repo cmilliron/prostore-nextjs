@@ -1,6 +1,6 @@
 import { getOrderById } from "@/lib/actions/order.actions";
 import { notFound } from "next/navigation";
-import { ShippingAddress } from "@/types";
+import { Order, ShippingAddress } from "@/types";
 import { Metadata } from "next";
 import OrderDetailsTable from "./order-details-table";
 
@@ -25,6 +25,7 @@ export default async function OrderDetailsPage(props: {
           ...order,
           shippingAddress: order.shippingAddress as ShippingAddress,
         }}
+        paypalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}
       />
     </>
   );

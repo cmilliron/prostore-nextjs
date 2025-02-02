@@ -154,13 +154,10 @@ export async function createPayPalOrder(orderId: string) {
 }
 
 // Approve PayPal Order
-export async function approvePayPalOrder({
-  orderId,
-  data,
-}: {
-  orderId: string;
-  data: { orderID: string };
-}) {
+export async function approvePayPalOrder(
+  orderId: string,
+  data: { orderID: string }
+) {
   try {
     // Fetch order from database
     const order = await prisma.order.findFirst({

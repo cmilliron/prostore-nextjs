@@ -10,15 +10,28 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-// import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import { Order, ShippingAddress, OrderItem } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  PayPalButtons,
+  PayPalScriptProvider,
+  usePayPalScriptReducer,
+} from "@paypal/react-paypal-js";
+import {
+  approvePayPalOrder,
+  createPayPalOrder,
+} from "@/lib/actions/order.actions";
 
-export default function OrderDetailsTable({ order }: { order: Order }) {
-  // const { toast } = useToast();
-
+export default function OrderDetailsTable({
+  order,
+  paypalClientId,
+}: {
+  order: Order;
+  paypalClientId: string;
+}) {
   const {
     shippingAddress,
     orderItems,
@@ -53,10 +66,14 @@ export default function OrderDetailsTable({ order }: { order: Order }) {
         <div>
           <aside>
             <OrderSummary
+              orderId={order.id}
               itemsPrice={itemsPrice}
               taxPrice={taxPrice}
               shippingPrice={shippingPrice}
               totalPrice={totalPrice}
+              isPaid={isPaid}
+              paymentMethod={paymentMethod}
+              paypalClientId={paypalClientId}
             />
           </aside>
         </div>
@@ -173,12 +190,54 @@ function OrderSummary({
   taxPrice,
   shippingPrice,
   totalPrice,
+  orderId,
+  isPaid,
+  paymentMethod,
+  paypalClientId,
 }: {
   itemsPrice: string;
   taxPrice: string;
   shippingPrice: string;
   totalPrice: string;
+  orderId: string;
+  isPaid: boolean;
+  paymentMethod: string;
+  paypalClientId: string;
 }) {
+  const { toast } = useToast();
+  // Checks the loading status of the Paypal Script
+  function PrintLoadingState() {
+    const [{ isPending, isRejected }] = usePayPalScriptReducer();
+    let status = "";
+    if (isPending) {
+      status = "Loading PayPal...";
+    } else if (isRejected) {
+      status = "Error in laoding PayPal.";
+    }
+    return status;
+  }
+
+  // Creates a PayPal order
+  const handleCreatePayPalOrder = async () => {
+    const res = await createPayPalOrder(orderId);
+    if (!res?.success) {
+      return toast({
+        description: res?.message,
+        variant: "destructive",
+      });
+    }
+    return res.data;
+  };
+
+  // Approves a PayPal order
+  const handleApprovePayPalOrder = async (data: { orderID: string }) => {
+    const res = await approvePayPalOrder(orderId, data);
+    toast({
+      description: res.message,
+      variant: res.success ? "default" : "destructive",
+    });
+  };
+
   return (
     <Card>
       <CardContent className="p-4 space-y-4 gap-4">
@@ -188,6 +247,21 @@ function OrderSummary({
         <SummaryItem label="Tax" amount={taxPrice} />
         <SummaryItem label="Shipping" amount={shippingPrice} />
         <SummaryItem label="Total" amount={totalPrice} />
+
+        {/* 
+  // Paypal Payment
+*/}
+        {!isPaid && paymentMethod === "PayPal" && (
+          <div>
+            <PayPalScriptProvider options={{ clientId: paypalClientId }}>
+              <PrintLoadingState />
+              <PayPalButtons
+                createOrder={handleCreatePayPalOrder}
+                onApprove={handleApprovePayPalOrder}
+              />
+            </PayPalScriptProvider>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

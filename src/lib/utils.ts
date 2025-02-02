@@ -94,15 +94,15 @@ export function formatDateTime(dateString: Date) {
     hour12: true,
   };
   const formattedDateTime: string = new Date(dateString).toLocaleString(
-    "en_US",
+    "en-US",
     dateTimeOptions
   );
   const formattedDate: string = new Date(dateString).toLocaleString(
-    "en_US",
+    "en-US",
     dateOptions
   );
   const formattedTime: string = new Date(dateString).toLocaleString(
-    "en_US",
+    "en-US",
     timeOptions
   );
 
@@ -112,3 +112,14 @@ export function formatDateTime(dateString: Date) {
     timeOnly: formattedTime,
   };
 }
+
+// Import or copy the function here if necessary
+const testDate = new Date("2023-10-25T08:30:00Z"); // Example date string
+
+// Call the formatDateTime function
+const formatted = formatDateTime(testDate);
+
+// Log the results
+console.log("Full DateTime:", formatted.dateTime); // Expected output: "Oct 25, 2023, 1:30 AM" (adjusted for timezone)
+console.log("Date Only:", formatted.dateOnly); // Expected output: "Wed, Oct 25, 2023"
+console.log("Time Only:", formatted.timeOnly); // Expected output: "1:30 AM" (adjusted for timezone)
