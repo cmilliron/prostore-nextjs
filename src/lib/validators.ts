@@ -116,6 +116,6 @@ export const insertOrderItemSchema = z.object({
 export const paymentResultSchema = z.object({
   id: z.string(),
   status: z.string(),
-  email_address: z.strong(),
+  email_address: z.string(),
   pricePaid: z.string(),
 });
