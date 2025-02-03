@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import qs from "query-string";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -113,13 +114,25 @@ export function formatDateTime(dateString: Date) {
   };
 }
 
-// Import or copy the function here if necessary
-const testDate = new Date("2023-10-25T08:30:00Z"); // Example date string
+// Form Pagination Links
+export function formUrlQuery({
+  params,
+  key,
+  value,
+}: {
+  params: string;
+  key: string;
+  value: string | null;
+}) {
+  const query = qs.parse(params);
 
-// Call the formatDateTime function
-const formatted = formatDateTime(testDate);
+  query[key] = value;
 
-// Log the results
-console.log("Full DateTime:", formatted.dateTime); // Expected output: "Oct 25, 2023, 1:30 AM" (adjusted for timezone)
-console.log("Date Only:", formatted.dateOnly); // Expected output: "Wed, Oct 25, 2023"
-console.log("Time Only:", formatted.timeOnly); // Expected output: "1:30 AM" (adjusted for timezone)
+  return qs.stringifyUrl(
+    {
+      url: window.location.pathname,
+      query,
+    },
+    { skipNull: true }
+  );
+}
