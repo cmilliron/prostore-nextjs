@@ -14,6 +14,8 @@ import { getCurrentSession } from "@/lib/actions/auth-actions";
 export default async function UserButton() {
   const session = await getCurrentSession();
 
+  console.log(session);
+
   if (!session) {
     return (
       <Button asChild>
@@ -60,6 +62,14 @@ export default async function UserButton() {
               Order History
             </Link>
           </DropdownMenuItem>
+          {session.user.role === "admin" && (
+            <DropdownMenuItem>
+              <Link className="w-full" href="/admin/overview">
+                Admin
+              </Link>
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuItem className="p-0 mb-1">
             <form action={signOutUser}>
               <Button
