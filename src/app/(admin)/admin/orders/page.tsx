@@ -1,5 +1,4 @@
 import { getCurrentSession } from "@/lib/actions/auth-actions";
-import { getAllOrders } from "@/lib/actions/order.actions";
 import { Metadata } from "next";
 import {
   Table,
@@ -9,6 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { deleteOrderById, getAllOrders } from "@/lib/actions/order.actions";
+import DeleteDialog from "@/components/shared/delete-dialog";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDateTime, formatId } from "@/lib/utils";
 import Pagination from "@/components/shared/pagination";
@@ -72,11 +73,12 @@ export default async function OrdersPage(props: {
                       <span className="px-2">Details</span>
                     </Link>
                   </Button>
-                  <Button asChild variant="outline" size="sm">
+                  {/* <Button asChild variant="outline" size="sm">
                     <Link href={`/order/${order.id}`}>
                       <span className="px-2">Delete</span>
                     </Link>
-                  </Button>
+                  </Button> */}
+                  <DeleteDialog id={order.id} action={deleteOrderById} />
                 </TableCell>
               </TableRow>
             ))}
