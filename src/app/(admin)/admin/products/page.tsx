@@ -9,8 +9,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getAllProducts } from "@/lib/actions/products-actions";
+import {
+  getAllProducts,
+  deleteProductById,
+} from "@/lib/actions/products-actions";
 import { formatCurrency, formatId } from "@/lib/utils";
+import DeleteDialog from "@/components/shared/delete-dialog";
 
 export default async function AdminProductsPage(props: {
   searchParams: Promise<{
@@ -70,7 +74,7 @@ export default async function AdminProductsPage(props: {
                   <Button asChild variant="outline" size="sm">
                     <Link href={`/admin/products/${product.id}`}>Edit</Link>
                   </Button>
-                  {/* DELETE BUTTON to go here */}
+                  <DeleteDialog id={product.id} action={deleteProductById} />
                 </TableCell>
               </TableRow>
             ))}
