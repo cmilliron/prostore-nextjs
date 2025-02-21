@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import ProductForm from "../../product-form";
 
 export const metadata: Metadata = {
   title: "Create product",
@@ -8,7 +9,9 @@ export default function CreateProductPage() {
   return (
     <>
       <h2 className="h2-bold">Create Product</h2>
-      <div className="my-8">{/* Product Form goes here */}</div>
+      <div className="my-8">
+        <ProductForm type="Create" />
+      </div>
     </>
   );
 }
