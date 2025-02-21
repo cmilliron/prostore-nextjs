@@ -136,16 +136,96 @@ export default function ProductForm({
             )}
           />
           {/* Brand */}
+          <FormField
+            control={form.control}
+            name="brand"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductsSchema>,
+                "brand"
+              >;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Brand</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter a product brand" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
           {/* Price */}
+          <FormField
+            control={form.control}
+            name="price"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductsSchema>,
+                "price"
+              >;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter a product price" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
           {/* Stock  */}
+          <FormField
+            control={form.control}
+            name="stock"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductsSchema>,
+                "stock"
+              >;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Stock</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter a product stock" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </div>
         <div className="upload-field flex flex-col gap-5 md:flex-row">
           {/* Images */}
         </div>
         <div className="upload-field">{/* Is Featured */}</div>
         <div>{/* Description */}</div>
+        <FormField
+          control={form.control}
+          name="description"
+          render={({
+            field,
+          }: {
+            field: ControllerRenderProps<
+              z.infer<typeof insertProductsSchema>,
+              "description"
+            >;
+          }) => (
+            <FormItem className="w-full">
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Enter a product description"
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
         <div>{/* Submit */}</div>
       </form>
     </Form>
