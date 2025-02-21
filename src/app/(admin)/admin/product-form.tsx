@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { createProduct, updateProduct } from "@/lib/actions/products-actions";
 import { productDefaultValues } from "@/lib/constants";
-import { insertProductsSchema, updateProductsSchema } from "@/lib/validators";
+import { insertProductsSchema, updateProductSchema } from "@/lib/validators";
 import { ControllerRenderProps } from "react-hook-form";
 import { Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -41,7 +41,7 @@ export default function ProductForm({
   const form = useForm<z.infer<typeof insertProductsSchema>>({
     resolver:
       type === "Update"
-        ? zodResolver(updateProductsSchema)
+        ? zodResolver(updateProductSchema)
         : zodResolver(insertProductsSchema),
     defaultValues:
       product && type === "Update" ? product : productDefaultValues,
@@ -93,7 +93,19 @@ export default function ProductForm({
                       {...field}
                       className="pl-8"
                     />
-                    {/* Generate Button */}
+                    <Button
+                      type="button"
+                      className="bg-gray-500 text-white px-4 py-1 mt-2 hover:bg-gray-600"
+                      onClick={() => {
+                        const slugValue = slugify(form.getValues("name"), {
+                          lower: true,
+                        });
+                        form.setValue("slug", slugValue);
+                        console.log(slugValue);
+                      }}
+                    >
+                      Generate
+                    </Button>
                   </div>
                 </FormControl>
                 <FormMessage />
