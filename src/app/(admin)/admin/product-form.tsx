@@ -115,6 +115,26 @@ export default function ProductForm({
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
           {/* Category */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductsSchema>,
+                "category"
+              >;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Category</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Category" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* Brand */}
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
