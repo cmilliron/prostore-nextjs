@@ -52,7 +52,54 @@ export default function ProductForm({
       <form className="space-y-8">
         <div className="flex flex-col gap-5 md:flex-row">
           {/* Name */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductsSchema>,
+                "name"
+              >;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter product name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           {/* Slug */}
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({
+              field,
+            }: {
+              field: ControllerRenderProps<
+                z.infer<typeof insertProductsSchema>,
+                "slug"
+              >;
+            }) => (
+              <FormItem className="w-full">
+                <FormLabel>Slug</FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      placeholder="Enter product slug"
+                      {...field}
+                      className="pl-8"
+                    />
+                    {/* Generate Button */}
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <div className="flex flex-col gap-5 md:flex-row">
           {/* Category */}
