@@ -13,7 +13,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createProduct, updateProduct } from "@/lib/actions/products-actions";
 import { productDefaultValues } from "@/lib/constants";
 import { insertProductsSchema, updateProductSchema } from "@/lib/validators";
-import { ControllerRenderProps } from "react-hook-form";
+import { ControllerRenderProps, SubmitHandler } from "react-hook-form";
 import { Product } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import slugify from "slugify";
@@ -47,9 +47,49 @@ export default function ProductForm({
       product && type === "Update" ? product : productDefaultValues,
   });
 
+  const onSubmit: SubmitHandler<z.infer<typeof insertProductsSchema>> = async (
+    values
+  ) => {
+    if (type === "Create") {
+      const res = await createProduct(values);
+
+      if (!res.success) {
+        toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      } else {
+        toast({
+          description: res.message,
+        });
+        router.push("/admin/products");
+      }
+    }
+    if (type === "Update") {
+      if (!productId) {
+        router.push(`/admin/products`);
+        return;
+      }
+      const res = await updateProduct({ ...values, id: productId });
+
+      if (!res.success) {
+        toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      } else {
+        router.push(`/admin/products`);
+      }
+    }
+  };
+
   return (
     <Form {...form}>
-      <form className="space-y-8">
+      <form
+        className="space-y-8"
+        method="post"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
         <div className="flex flex-col gap-5 md:flex-row">
           {/* Name */}
           <FormField
@@ -226,7 +266,16 @@ export default function ProductForm({
             </FormItem>
           )}
         />
-        <div>{/* Submit */}</div>
+        <div>
+          <Button
+            type="submit"
+            size="lg"
+            disabled={form.formState.isSubmitting}
+            className="button col-span-2 w-full"
+          >
+            {form.formState.isSubmitting ? "Submitting" : `${type} Product`}
+          </Button>
+        </div>
       </form>
     </Form>
   );
