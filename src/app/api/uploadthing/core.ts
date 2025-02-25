@@ -1,13 +1,13 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
-import { getCurrentSession } from "@/lib/actions/auth-actions";
+import { auth } from "@/auth";
 
 const f = createUploadthing();
 
 export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: "4MB" } })
     .middleware(async () => {
-      const session = await getCurrentSession();
+      const session = await auth();
 
       if (!session) throw new UploadThingError("Unauthorized");
 
@@ -18,4 +18,4 @@ export const ourFileRouter = {
     }),
 } satisfies FileRouter;
 
-export type ourFileRouter = typeof ourFileRouter;
+export type OurFileRouter = typeof ourFileRouter;

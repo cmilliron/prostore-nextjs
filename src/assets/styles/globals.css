@@ -109,3 +109,12 @@
   height: "100vh";
   width: "100vw";
 }
+
+/* UPloadthing button text override */
+html.dark .upload-field .text-white {
+  color: #ffffff !important;
+}
+
+.upload-field .text-white {
+  color: #000 !important;
+}
