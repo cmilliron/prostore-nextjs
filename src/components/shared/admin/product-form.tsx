@@ -85,6 +85,8 @@ export default function ProductForm({
   };
 
   const images = form.watch("images");
+  const isFeatured = form.watch("isFeatured");
+  const banner = form.watch("banner");
 
   return (
     <Form {...form}>
@@ -242,6 +244,7 @@ export default function ProductForm({
           />
         </div>
         <div className="upload-field flex flex-col gap-5 md:flex-row">
+          {/* Images */}
           <FormField
             control={form.control}
             name="images"
@@ -283,7 +286,51 @@ export default function ProductForm({
             )}
           />
         </div>
-        <div className="upload-field">{/* Is Featured */}</div>
+        <div className="upload-field">
+          {/* Is Featured */}
+          Featured Product
+          <Card>
+            <CardContent className="space-y-2 mt-2">
+              <FormField
+                control={form.control}
+                name="isFeatured"
+                render={({ field }) => (
+                  <FormItem className="space-x-2 items-center">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              {isFeatured && banner && (
+                <Image
+                  src={banner}
+                  alt="banner image"
+                  className="w-full object-cover object-center rounded-sm"
+                  width={1920}
+                  height={680}
+                />
+              )}
+              {isFeatured && !banner && (
+                <UploadButton
+                  endpoint="imageUploader"
+                  onClientUploadComplete={(res: { url: string }[]) => {
+                    form.setValue("banner", res[0].url);
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast({
+                      variant: "destructive",
+                      description: `Error! ${error.message}`,
+                    });
+                  }}
+                />
+              )}
+            </CardContent>
+          </Card>
+        </div>
         <div>{/* Description */}</div>
         <FormField
           control={form.control}
