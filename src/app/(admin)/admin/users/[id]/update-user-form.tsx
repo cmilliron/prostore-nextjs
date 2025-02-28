@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { updateUser } from "@/lib/actions/users.actions";
 
 export default function UpdateUserForm({
   user,
@@ -39,9 +40,39 @@ export default function UpdateUserForm({
     defaultValues: user,
   });
 
+  // on Submit handler
+  const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
+    try {
+      const res = await updateUser({
+        ...values,
+        id: user.id,
+      });
+
+      if (!res.success) {
+        return toast({
+          variant: "destructive",
+          description: res.message,
+        });
+      }
+
+      toast({
+        variant: "default",
+        description: res.message,
+      });
+      form.reset();
+      router.push(`/admin/users`);
+    } catch (error) {
+      toast({ variant: "destructive", description: (error as Error).message });
+    }
+  };
+
   return (
     <Form {...form}>
-      <form className="space-y-4">
+      <form
+        method="post"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-4"
+      >
         {/* Email */}
         <div>
           <FormField
