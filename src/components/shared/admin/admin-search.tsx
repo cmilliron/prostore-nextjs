@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export default function AdminSearch() {
   const pathname = usePathname();
   const formActionUrl = pathname.includes("/admin/orders")
-    ? "/admin/users"
+    ? "/admin/orders"
     : pathname.includes("/admin/users")
     ? "/admin/users"
     : "/admin/products";
