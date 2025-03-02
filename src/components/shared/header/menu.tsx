@@ -11,6 +11,7 @@ import Link from "next/link";
 import ModeToggle from "./mode-toggle";
 import { ReactElement } from "react";
 import UserButton from "./user-button";
+import Search from "./search";
 
 export default function Menu(): ReactElement {
   return (
@@ -34,6 +35,9 @@ export default function Menu(): ReactElement {
             <SheetContent className="flex flex-col items-start">
               <SheetTitle>Menu</SheetTitle>
               <ModeToggle />
+              <div className="mt-10">
+                <Search />
+              </div>
               <Button asChild variant="ghost">
                 <Link href="/cart">
                   <ShoppingCart />

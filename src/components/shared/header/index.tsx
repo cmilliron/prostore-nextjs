@@ -6,6 +6,7 @@ import { APP_NAME } from "@/lib/constants";
 import Menu from "./menu";
 import CategoriesDrawer from "./categories-drawer";
 import logo from "@/assets/logo.svg";
+import Search from "./search";
 
 export default function Header() {
   return (
@@ -26,6 +27,9 @@ export default function Header() {
                 {APP_NAME}
               </span>
             </Link>
+          </div>
+          <div className="hidden md:block">
+            <Search />
           </div>
           <Menu />
         </div>
