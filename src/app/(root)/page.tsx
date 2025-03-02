@@ -5,6 +5,7 @@ import {
   getlatestProducts,
 } from "@/lib/actions/products-actions";
 import { ProductCarousel } from "@/components/shared/product/product-carousel";
+import ViewAllProductsButton from "@/components/view-all-products-button";
 
 // const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -18,6 +19,7 @@ export default async function Homepage() {
         <ProductCarousel data={featuredProducts} />
       )}
       <ProductList title="Newest Arrivals" data={latestProducts} />
+      <ViewAllProductsButton />
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default async function CategoriesDrawer() {
                 asChild
               >
                 <DrawerClose asChild>
-                  <Link href={`/serach?category=${x.category}`}>
+                  <Link href={`/search?category=${x.category}`}>
                     {x.category} ({x._count})
                   </Link>
                 </DrawerClose>
