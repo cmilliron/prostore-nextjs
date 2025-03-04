@@ -6,6 +6,7 @@ import {
   getAllProducts,
 } from "@/lib/actions/products-actions";
 import Link from "next/link";
+import { prices } from "@/lib/constants/prices";
 
 export default async function SearchPage(props: {
   searchParams: Promise<{
@@ -67,8 +68,8 @@ export default async function SearchPage(props: {
   return (
     <div className="grid md:grid-cols-5 md:gap-5">
       <div className="filter-links">
-        {/* Filters */}
-        <div className="text-xl mt-3 mb-2">Department</div>
+        {/* Category */}
+        <div className="text-xl mt-3 mb-2">Category</div>
         <div>
           <ul className="space-y-1">
             <li>
@@ -88,6 +89,30 @@ export default async function SearchPage(props: {
                   href={getFilterUrl({ c: x.category })}
                 >
                   {x.category}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* Price Links */}
+        <div>
+          <div className="text-xl mt-8 mb-2">Price</div>
+          <ul className="space-y-1">
+            <li>
+              <Link
+                className={`${"all" === price && "font-bold"}`}
+                href={getFilterUrl({ p: "all" })}
+              >
+                Any
+              </Link>
+            </li>
+            {prices.map((p) => (
+              <li key={p.value}>
+                <Link
+                  href={getFilterUrl({ p: p.value })}
+                  className={`${p.value === price && "font-bold"}`}
+                >
+                  {p.name}
                 </Link>
               </li>
             ))}
