@@ -6,7 +6,7 @@ import {
   getAllProducts,
 } from "@/lib/actions/products-actions";
 import Link from "next/link";
-import { prices } from "@/lib/constants/prices";
+import { prices, ratings, sortOrders } from "@/lib/constants/filters";
 
 export default async function SearchPage(props: {
   searchParams: Promise<{
@@ -118,8 +118,64 @@ export default async function SearchPage(props: {
             ))}
           </ul>
         </div>
+
+        {/* Ratings Links */}
+        <div className="">
+          <div className="text-xl mt-8 mb-2">Customer Review</div>
+          <ul className="space-y-1">
+            <li>
+              <Link
+                className={`${"all" === rating && "font-bold"}`}
+                href={getFilterUrl({ r: "all" })}
+              >
+                Any
+              </Link>
+            </li>
+            {ratings.map((r) => (
+              <li key={r}>
+                <Link
+                  href={getFilterUrl({ r: `${r}` })}
+                  className={`${r.toString() === rating && "font-bold"}`}
+                >
+                  {`${r} stars & up`}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
       <div className="md:col-span-4 space-y-4">
+        <div className="flex items-center">
+          {q !== "all" && q !== "" && "Query : " + q}
+          {category !== "all" &&
+            category !== "" &&
+            "    Category : " + category}
+          {price !== "all" && price !== "" && "    Price : " + price}
+          {rating !== "all" &&
+            rating !== "" &&
+            "    Rating : " + rating + " & up"}
+          &nbsp;
+          {(q !== "all" && q !== "") ||
+          (category !== "all" && category !== "") ||
+          (rating !== "all" && rating !== "") ||
+          (price !== "all" && price !== "") ? (
+            <Button variant={"link"} asChild>
+              <Link href="/search">Clear</Link>
+            </Button>
+          ) : null}
+          <div>
+            Sort by{" "}
+            {sortOrders.map((s) => (
+              <Link
+                key={s}
+                className={`mx-2 ${sort === s && "font-bold"}`}
+                href={getFilterUrl({ s })}
+              >
+                {s}
+              </Link>
+            ))}
+          </div>
+        </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           {products!.data.length === 0 && <div>No product found</div>}
           {products!.data.map((product) => (

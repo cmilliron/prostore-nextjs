@@ -20,3 +20,7 @@ export const prices = [
     value: "501-1000",
   },
 ];
+
+export const ratings = [4, 3, 2, 1];
+
+export const sortOrders = ["newest", "lowest", "highest", "rating"];
