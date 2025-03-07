@@ -67,8 +67,8 @@ export default function ReviewForm({
   };
 
   //   Form  submit handler
-  const onSubmit: SubmitHandler<CustomerReview> = async (value) => {
-    const res = await createUpdateReview({ ...value, productId });
+  const onSubmit: SubmitHandler<CustomerReview> = async (values) => {
+    const res = await createUpdateReview({ ...values, productId });
 
     if (!res.success) {
       return toast({

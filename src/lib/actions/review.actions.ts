@@ -20,7 +20,7 @@ export async function createUpdateReview(
       ...data,
       userId: session?.user.id,
     });
-
+    console.log(review);
     // Get the product being reviewed
     const product = await prisma.product.findFirst({
       where: { id: review.productId },
@@ -34,8 +34,9 @@ export async function createUpdateReview(
         userId: review.userId,
       },
     });
+    console.log("2");
 
-    // If review exists,k update it, otherwise create a new one
+    // If review exists, update it, otherwise create a new one
     await prisma.$transaction(async (tx) => {
       if (reviewExists) {
         // Update Review
