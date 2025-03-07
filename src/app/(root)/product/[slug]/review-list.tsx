@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, Check, User } from "lucide-react";
+import { Calendar, User } from "lucide-react";
 import { formatDateTime } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
@@ -28,7 +28,7 @@ export default function ReviewList({
 }) {
   console.log(userId, productId, productSlug);
   const [reviews, setReviews] = useState<Review[]>([]);
-
+  const { toast } = useToast();
   useEffect(() => {
     // Load review from the database
     const loadReviews = async () => {
@@ -38,8 +38,18 @@ export default function ReviewList({
     loadReviews();
   }, [productId]);
 
+  //   Reload review when a review is submitted
   const reload = async () => {
-    console.log("review sumitted");
+    try {
+      const res = await getReviews({ productId });
+      setReviews([...res.data]);
+    } catch (error) {
+      console.log(error);
+      toast({
+        variant: "destructive",
+        description: "Error in fetching reviews",
+      });
+    }
   };
 
   return (
@@ -70,6 +80,7 @@ export default function ReviewList({
               <div className="flex-between">
                 <CardTitle>{review.title}</CardTitle>
               </div>
+              <CardDescription>{review.description}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex space-x-4 text-sm text-muted-foreground">
