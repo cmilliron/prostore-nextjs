@@ -28,15 +28,18 @@ import {
 } from "@/lib/actions/order.actions";
 import { useTransition } from "react";
 import { Button } from "@/components/ui/button";
+import StripePayment from "./stripe-payment";
 
 export default function OrderDetailsTable({
   order,
   paypalClientId,
   isAdmin,
+  stripeClientSecret,
 }: {
   order: Order;
   paypalClientId: string;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }) {
   const {
     shippingAddress,
@@ -82,6 +85,7 @@ export default function OrderDetailsTable({
               paypalClientId={paypalClientId}
               isDelivered={isDelivered}
               isAdmin={isAdmin}
+              stripeClientSecret={stripeClientSecret}
             />
           </aside>
         </div>
@@ -204,6 +208,7 @@ function OrderSummary({
   paypalClientId,
   isDelivered,
   isAdmin,
+  stripeClientSecret,
 }: {
   itemsPrice: string;
   taxPrice: string;
@@ -215,6 +220,7 @@ function OrderSummary({
   paypalClientId: string;
   isDelivered: boolean;
   isAdmin: boolean;
+  stripeClientSecret: string | null;
 }) {
   const { toast } = useToast();
   // Checks the loading status of the Paypal Script
@@ -318,6 +324,14 @@ function OrderSummary({
               />
             </PayPalScriptProvider>
           </div>
+        )}
+        {/* Stripe Payment */}
+        {!isPaid && paymentMethod === "Stripe" && stripeClientSecret && (
+          <StripePayment
+            priceInCents={Math.round(parseFloat(totalPrice) * 100)}
+            orderId={orderId}
+            clientSecret={stripeClientSecret}
+          />
         )}
         {/* Cash on Delivery */}
         {isAdmin && !isPaid && paymentMethod === "CashOnDelivery" && (
