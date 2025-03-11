@@ -66,7 +66,7 @@ export const config = {
       // Set the user ID from the token
       session.user.id = token.sub;
       session.user.role = token.role;
-      console.log("session role", session.user.role);
+      // console.log("session role", session.user.role);
       session.user.name = token.name;
 
       // If there is an update, set the user name
@@ -81,7 +81,7 @@ export const config = {
       // Assign user fields to token
       if (user) {
         token.role = user.role;
-        console.log("token", token.role);
+        // console.log("token", token.role);
         token.id = user.id;
 
         // If user has no name then use th email
