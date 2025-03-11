@@ -45,9 +45,7 @@ export default async function OrderPage(props: {
                 <TableCell>
                   {formatDateTime(order.createdAt).dateTime}
                 </TableCell>
-                <TableCell>
-                  {formatCurrency(order.totalPrice.toNumber())}
-                </TableCell>
+                <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>
                   {order.isPaid && order.paidAt
                     ? formatDateTime(order.paidAt).dateTime
