@@ -1,6 +1,6 @@
 import { getOrderById } from "@/lib/actions/order.actions";
 import { notFound } from "next/navigation";
-import { Order, ShippingAddress } from "@/types";
+import { ShippingAddress } from "@/types";
 import { Metadata } from "next";
 import OrderDetailsTable from "./order-details-table";
 import { getCurrentSession } from "@/lib/actions/auth-actions";
@@ -31,7 +31,7 @@ export default async function OrderDetailsPage(props: {
     // Create payment intent
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(order.totalPrice * 100),
+      amount: Math.round(Number(order.totalPrice) * 100),
       currency: "USD",
       metadata: { orderId: order.id },
     });
@@ -42,9 +42,14 @@ export default async function OrderDetailsPage(props: {
   return (
     <>
       <OrderDetailsTable
+        // @ts-expect-error: the library definition is wrong
         order={{
           ...order,
           shippingAddress: order.shippingAddress as ShippingAddress,
+          itemsPrice: order.itemsPrice.toString(),
+          taxPrice: order.taxPrice.toString(),
+          shippingPrice: order.shippingPrice.toString(),
+          totalPrice: order.totalPrice.toString(),
         }}
         stripeClientSecret={client_sercret}
         paypalClientId={process.env.PAYPAL_CLIENT_ID || "sb"}

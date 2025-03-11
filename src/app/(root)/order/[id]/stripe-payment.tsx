@@ -22,7 +22,7 @@ export default function StripePayment({
   clientSecret: string;
 }) {
   const stripePromise = loadStripe(
-    process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
   );
   const { theme, systemTheme } = useTheme();
 
