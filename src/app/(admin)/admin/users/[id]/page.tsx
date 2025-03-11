@@ -19,7 +19,7 @@ export default async function UpdateProductPage(props: {
   return (
     <div className="space-y-8 max-w-lg mx-auto">
       <h1 className="h2-bold">Update User</h1>
-      {/* // @ts-expect-error: the library definition is wrong */}
+      {/* @ts-expect-error: the library definition is wrong */}
       <UpdateUserForm user={user} />
     </div>
   );
