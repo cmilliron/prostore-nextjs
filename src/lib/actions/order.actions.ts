@@ -13,10 +13,6 @@ import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
 
-export const config = {
-  runtime: "nodejs",
-};
-
 // Create Order Actions
 export async function createOrder() {
   try {

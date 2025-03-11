@@ -7,10 +7,6 @@ import { formatError } from "../utils";
 import { insertReviewSchema } from "../validators";
 import { prisma } from "@/db/prisma";
 
-export const config = {
-  runtime: "nodejs",
-};
-
 // Create & Udate Review
 export async function createUpdateReview(
   data: z.infer<typeof insertReviewSchema>

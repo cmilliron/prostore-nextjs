@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 import { getCurrentSession } from "@/lib/actions/auth-actions";
 import ProfileForm from "./profile-form";

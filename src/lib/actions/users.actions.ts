@@ -20,10 +20,6 @@ import { PAGE_SIZE } from "../constants";
 import { revalidatePath } from "next/cache";
 import { Prisma } from "@prisma/client";
 
-export const config = {
-  runtime: "nodejs",
-};
-
 //  Sign in the user with credentials
 export async function signInWithCredentials(
   prevState: unknown,

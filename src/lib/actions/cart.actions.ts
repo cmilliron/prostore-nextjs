@@ -11,10 +11,6 @@ import { Prisma } from "@prisma/client";
 import { convertToPlainObject } from "../utils";
 import { CartItem } from "@/types";
 
-export const config = {
-  runtime: "nodejs",
-};
-
 // Calculate cart prices
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = roundTwoDecimalPlaces(
