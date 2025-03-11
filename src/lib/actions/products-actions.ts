@@ -9,6 +9,10 @@ import { updateProductSchema, insertProductsSchema } from "../validators";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
 
+export const config = {
+  runtime: "nodejs",
+};
+
 // Get latest products
 export async function getLatestProducts() {
   const data = await prisma.product.findMany({
