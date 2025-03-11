@@ -1,8 +1,8 @@
 import ProductList from "@/components/shared/product/product-list";
-import { getLatestProducts } from "@/lib/actions/products-actions";
+
 import {
   getFeaturedProducts,
-  getlatestProducts,
+  getLatestProducts,
 } from "@/lib/actions/products-actions";
 import { ProductCarousel } from "@/components/shared/product/product-carousel";
 import ViewAllProductsButton from "@/components/view-all-products-button";

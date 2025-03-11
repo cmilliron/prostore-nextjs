@@ -86,6 +86,7 @@ export default function ShippingAddressForm({
                     <FormControl>
                       <Input placeholder="Ender full name" {...field} />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
