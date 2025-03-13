@@ -7,11 +7,12 @@ import { getMyCart } from "./cart.actions";
 import { getUserById } from "./users.actions";
 import { insertOrderSchema } from "../validators";
 import { prisma } from "@/db/prisma";
-import { CartItem, PaymentResult } from "@/types";
 import { paypal } from "../paypal";
 import { revalidatePath } from "next/cache";
 import { PAGE_SIZE } from "../constants";
 import { Prisma } from "@prisma/client";
+import { CartItem, PaymentResult, ShippingAddress } from "@/types";
+import { sendPurchaseReceipt } from "@/email";
 
 // Create Order Actions
 export async function createOrder() {
@@ -257,6 +258,20 @@ export async function updateOrderToPaid({
   if (!updatedOrder) {
     throw new Error("Order not found");
   }
+
+  // Send purchase receipt email
+  sendPurchaseReceipt({
+    // @ts-expect-error: the library definition is wrong
+    order: {
+      ...updatedOrder,
+      shippingAddress: updatedOrder.shippingAddress as ShippingAddress,
+      paymentResult: updatedOrder.paymentResult as PaymentResult,
+      itemsPrice: updatedOrder.itemsPrice.toString(),
+      taxPrice: updatedOrder.taxPrice.toString(),
+      shippingPrice: updatedOrder.shippingPrice.toString(),
+      totalPrice: updatedOrder.totalPrice.toString(),
+    },
+  });
 }
 
 //  get User Orders
