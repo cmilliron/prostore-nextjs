@@ -1,4 +1,6 @@
 import ProductList from "@/components/shared/product/product-list";
+import IconBoxes from "@/components/shared/icon-boxes";
+import DealCountdown from "@/components/deal-countdown";
 
 import {
   getFeaturedProducts,
@@ -20,6 +22,8 @@ export default async function Homepage() {
       )}
       <ProductList title="Newest Arrivals" data={latestProducts} />
       <ViewAllProductsButton />
+      <DealCountdown />
+      <IconBoxes />
     </div>
   );
 }
